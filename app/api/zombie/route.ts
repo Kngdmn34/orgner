@@ -32,9 +32,7 @@ userId: owner.id as string ,
                 name: 'asc'
             }
         })
-        if (!zombies) { 
-            return null
-        }
+        
        
 
         return NextResponse.json({zombies}, {status: 201} )

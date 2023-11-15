@@ -19,9 +19,7 @@ export async function GET ( ) {
             }
             
         })
-        if(!tasks) { 
-            return null
-        }
+        
         return NextResponse.json({tasks}, { status: 200})
 
     }
