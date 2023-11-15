@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// creating user profile model.. .
+
+model Session {
+  id           String   @id @default(cuid())@map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+model User { 
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String? @unique
+  email String? @unique
+  role String? 
+  image String? 
+  emailVerified DateTime?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  organisations Organisation[]
+
+tasksList Tasks[]
+accounts Account[]
+sessions Session[]
+
+
+  
+}
+
+model Tasks { 
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String @unique
+  description String?
+  isCompleted Boolean? @default(false)
+   //here will add a tracker in next version
+  userId String @db.ObjectId
+   user User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now()) 
+  updatedAt DateTime @updatedAt()
+}
+
+// creating employeeys profiles ... 
+
+model Organisation { 
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  organisationName String @unique
+  
+  value String
+  employees Int  
+  age Int
+  phase String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String @db.ObjectId
+  zombies Zombie[]
+  user User @relation(fields: [userId], references: [id])
+
+}
+
+model Zombie  {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+  position String  
+  status String? @default("Active")
+  createdAt DateTime @default(now())
+  
+  userId String  @db.ObjectId
+  organisation  Organisation @relation(fields: [userId], references: [id])
+
+
+}
+
+model Account {
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String @map("user_id") @db.ObjectId
+  type               String
+  provider           String
+  providerAccountId  String @map("provider_account_id")
+  refresh_token      String?  @db.String
+  access_token       String? @db.String
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.String
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+
+
+
