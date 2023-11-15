@@ -21,7 +21,7 @@ export const authOptions:AuthOptions = {
     strategy: "jwt"
 },
 pages:{
-  signIn: '/signin'
+  signIn: '/app/signin'
 },
 
 callbacks: {

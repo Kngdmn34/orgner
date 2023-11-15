@@ -18,9 +18,6 @@ const AuthForum = () => {
     useEffect(() => {
         if (session?.status === 'authenticated') {
             toast.success('Logged')
-            router.push(`/home`)
-
-
         }
     }, [session.status, router])
 
