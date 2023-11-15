@@ -30,15 +30,10 @@ const AuthForum = () => {
                     router.push('/home')
                 }
                 if (callback?.error) {
-                    toast.error('Something went wrong , Try Again', {
-
-                        style: {
-                            borderRadius: '10px',
-                            background: 'dark:#333',
-                            color: 'dark:#fff',
-                        },
-                    })
+                    toast.error('Something went wrong , Try Again')
                 }
+
+
             }).finally(() => setLoading(false))
     }
 

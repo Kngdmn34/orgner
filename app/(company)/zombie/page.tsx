@@ -45,7 +45,7 @@ const Zombiespage = () => {
                     if (res.data && res.data.zombies) {
                         const zombieData: zombieslist[] = (res.data.zombies)
                         setZombie(zombieData)
-                        console.log(res.data)
+
 
                     }
                     else {
