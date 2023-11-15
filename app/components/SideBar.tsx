@@ -104,7 +104,7 @@ const SideBar = () => {
 
 
                 </div>
-                <span className='flex mx-auto mt-2 rounded-lg text-sm border bg-yellow-200 w-[72%] items-center'><IoMdInformationCircleOutline /> <p className='ml-6 text-small'>Testing Beta</p></span>
+                <span className='flex mx-auto mt-2 rounded-lg text-sm border dark:text-neutral-800 bg-yellow-200 w-[72%] items-center'><IoMdInformationCircleOutline /> <p className='ml-6 text-small'>Testing Beta</p></span>
                 <div className={`flex flex-col space-y-28 ${navbar ? `-translate-x-96 duration-400 ` : `-translate-x-0 duration-400`}`}>
                     <div className='mt-10'>
                         <div className=''>
