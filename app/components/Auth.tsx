@@ -39,7 +39,7 @@ const AuthForum = () => {
     }
 
     return (
-        <div className='w-full shadow-inner '>
+        <div className='w-full  z-30   backdrop-blur-md '>
             <div className='flex flex-col space-y-5 border-t border-b border-gray-400 p-6  '>
                 <h1>Continue with ... </h1>
                 <div className='flex justify-center '>
