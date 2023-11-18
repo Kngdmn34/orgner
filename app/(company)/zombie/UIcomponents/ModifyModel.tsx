@@ -99,7 +99,7 @@ export const ModifyModalApp: React.FC<ModifyModelProps> = ({
                                         <input className="px-3 py-1 border shadow-sm" {...register('position')} type='text' placeholder='Role' required />
                                         <p>{errors.position?.message}</p>
                                         <label className="flex text-small text-left justify-start">Status</label>
-                                        <input className="px-3 py-1 border shadow-sm" {...register('status')} type='text' placeholder='Role' required />
+                                        <input className="px-3 py-1 border shadow-sm" {...register('status')} type='text' placeholder='Current Status' required />
                                         <p>{errors.status?.message}</p>
 
 

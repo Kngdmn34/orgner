@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import React, { useEffect, useState } from 'react'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, DropdownItem, Input, Link } from "@nextui-org/react";
 import { FieldValues, useForm, SubmitHandler } from 'react-hook-form';
@@ -79,7 +80,7 @@ const Model: React.FC<ModelTaskProps> = ({ isOpen, onOpen, onOpenChange }) => {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Edit Worker Informations</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">Add Task</ModalHeader>
                             <form onSubmit={handleSubmit(OnSubmit)}>
                                 <ModalBody>
 
