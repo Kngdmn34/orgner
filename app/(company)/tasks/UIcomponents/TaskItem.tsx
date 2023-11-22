@@ -66,7 +66,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
                         ><MdDeleteOutline /></button>
 
                         <span>
-                            {isCompleted === true ? <MdOutlineDone className='text-green-600' /> : <button onClick={() => taskUpdate(id)}><RiLoader5Fill className='animate-spin' /></button>}
+                            {isCompleted === true ? <MdOutlineDone className='text-green-600' /> : <button className='z-30' onClick={() => taskUpdate(id)}><RiLoader5Fill className='animate-spin' /></button>}
                         </span>
                         <button className='flex z-20 ease-in delay-500' onClick={() => ToggleDes()}>
                             {vdescription == true ? <IoIosArrowUp className=' ease-in text-orange-700 drop-shadow-sm' /> : <IoIosArrowDown className='text-orange-700 drop-shadow-sm' />}
