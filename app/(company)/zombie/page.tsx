@@ -18,6 +18,7 @@ import clsx from 'clsx';
 
 
 type zombieslist = {
+    id: string
     name: string;
     position: string;
     status: string
@@ -133,7 +134,7 @@ const Zombiespage = () => {
                                                     </td>
 
                                                     <td className="px-6 w-16 py-4">
-                                                        <Action />
+                                                        <Action id={zombie.id} />
                                                     </td>
 
 

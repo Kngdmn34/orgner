@@ -7,20 +7,22 @@ import toast from 'react-hot-toast';
 import ModifyModalApp from './ModifyModel';
 
 
+interface ModelProps {
+    id: string
+}
 
-
-const Action = () => {
+const Action: React.FC<ModelProps> = ({ id }) => {
 
     const { isOpen, onOpenChange, onOpen } = useDisclosure()
 
 
 
-    const deleteUser = async () => {
+    const deleteUser = async (id: string) => {
         try {
-            const res = await axios.delete(`/api/zombie`);
+            const res = await axios.delete(`/api/zombie/${id}`);
 
             toast.success('Deleted successfully');
-            console.log(res.data);
+
         } catch (e) {
             // Handle errors, show a toast or update UI state
             toast.error('Failed to delete zombie');
@@ -47,7 +49,7 @@ const Action = () => {
                     <ModifyModalApp onOpen={onOpen} isOpen={isOpen} onOpenChange={onOpenChange} />
                 </DropdownItem>
 
-                <DropdownItem onAction={() => deleteUser()} key="delete" className="text-danger text-center" color="danger">
+                <DropdownItem onAction={() => deleteUser(id)} key="delete" className="text-danger text-center" color="danger">
                     Delete
                 </DropdownItem>
             </DropdownMenu>

@@ -95,39 +95,6 @@ console.log('Zombie POST ERROR', error)
 
 }
 
-export async function DELETE (req: Request) { 
-
-    try { 
-    const owner = await getCurrentOwner()
-    if (!owner) {
-        return new NextResponse('ERROR')
-    }
-
-    const zombie = await prisma.zombie.findFirst({
-        where: {
-          userId: owner.id as string,
-        },
-      });
-  
-      if (!zombie) {
-        // No zombie found for the current owner
-        return new NextResponse('Zombie not found', { status: 404 });
-      }
-
-    const deleteZombie = await prisma.zombie.delete({
-        where: { 
-            id: zombie.id
-           
-        }
-    })
-
-    return NextResponse.json({deleteZombie}, {status: 201})
-
-}catch(error) { 
-    return NextResponse.json({error}, {status: 500})
-}
-
-}
 
 export async function PATCH (req: Request) {
     try {

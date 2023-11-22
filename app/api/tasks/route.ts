@@ -68,37 +68,3 @@ catch( error ) {
 }
 }
 
-export async function DELETE ( ) { 
-
-    try { 
-
-        const owner = await getCurrentOwner()
-        if(!owner) { 
-            return NextResponse.error()
-        }
-
-        // check for the owner of the task 
-
-        const ownerTask = await prisma.tasks.findFirst({
-            where: { 
-                userId:  owner.id as string 
-            }
-        })
-
-        if (!ownerTask) { 
-return NextResponse.error()
-        }
-
-        const deleteTask = await prisma.tasks.delete({
-            where: { 
-                id: ownerTask.id
-            }
-        })
-
-        return NextResponse.json({deleteTask} , { status: 200})
-        
-
-    }catch(error){ 
-        return NextResponse.error()
-    }
-}

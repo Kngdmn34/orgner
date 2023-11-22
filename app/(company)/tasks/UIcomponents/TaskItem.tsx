@@ -10,13 +10,14 @@ import toast from 'react-hot-toast';
 
 
 interface TaskItemProps {
+    id: string
     title: string;
     description?: string
     isCompleted?: boolean
 
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ title, description, isCompleted }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted }) => {
 
     const [vdescription, setVdescription] = useState(false)
 
@@ -30,9 +31,9 @@ const TaskItem: React.FC<TaskItemProps> = ({ title, description, isCompleted }) 
 
     }
 
-    const deleteTask = async () => {
+    const deleteTask = async (id: string) => {
         try {
-            const response = await axios.delete('/api/tasks')
+            const response = await axios.delete(`/api/tasks/${id}`)
             toast.success('Task Deleted')
             return response.data
         }
@@ -48,7 +49,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ title, description, isCompleted }) 
                     <h1>{title}</h1>
                     <span className='flex flex-row items-center space-x-5'>
 
-                        <button className='z-20' onClick={() => deleteTask()}
+                        <button className='z-20' onClick={() => deleteTask(id)}
                         ><MdDeleteOutline /></button>
 
                         <span>

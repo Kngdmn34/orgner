@@ -17,6 +17,7 @@ import TaskItem from './UIcomponents/TaskItem';
 
 
 type Task = {
+    id: string
     title: string;
     description?: string;
     isCompeted?: boolean
@@ -74,8 +75,8 @@ const TaskPage = () => {
                     </span>
                     <hr className='w-72 mx-auto' />
                     <ul className='w-full mt-16'>
-                        {tasks?.map((task, id) => (
-                            <li key={id}><TaskItem title={task.title} description={task.description} isCompleted={task.isCompeted} /> </li>
+                        {tasks?.map((task) => (
+                            <li key={task.id}><TaskItem id={task.id} title={task.title} description={task.description} isCompleted={task.isCompeted} /> </li>
                         ))}
                     </ul>
                 </div>
