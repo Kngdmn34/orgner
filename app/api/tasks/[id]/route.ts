@@ -43,7 +43,7 @@ export async function PUT ( req: Request, {params} : { params: {id:string}}){
     try{ 
         const owner = await getCurrentOwner()
         if(!owner) {
-            return null
+            return new NextResponse('ERROR')
         }
 
         const body = await req.json()
