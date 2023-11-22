@@ -42,6 +42,19 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
         }
     }
 
+    const taskUpdate = async (id: string) => {
+        try {
+            const response = await axios.put(`/api/tasks/${id}`)
+            toast.success('Task Completed')
+            return response.data
+
+        }
+
+        catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <>
             <div className={` mx-auto overflow-hidden w-[96%] ${vdescription ? `border-l-2 border-r-2 border-t-2 shadow-none` : `border-2  shadow-md`}  p-1 rounded-lg`}>
@@ -53,7 +66,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
                         ><MdDeleteOutline /></button>
 
                         <span>
-                            {isCompleted === true ? <MdOutlineDone className='text-green-600' /> : <RiLoader5Fill className='animate-spin' />}
+                            {isCompleted === true ? <MdOutlineDone className='text-green-600' /> : <button onClick={() => taskUpdate(id)}><RiLoader5Fill className='animate-spin' /></button>}
                         </span>
                         <button className='flex z-20 ease-in delay-500' onClick={() => ToggleDes()}>
                             {vdescription == true ? <IoIosArrowUp className=' ease-in text-orange-700 drop-shadow-sm' /> : <IoIosArrowDown className='text-orange-700 drop-shadow-sm' />}

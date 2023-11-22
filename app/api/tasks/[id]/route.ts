@@ -47,15 +47,15 @@ export async function PUT ( req: Request, {params} : { params: {id:string}}){
         }
 
         const body = await req.json()
-        const { title , description, isCompleted } =  body
+        const {  isCompleted } =  body
 
         const updateTask = await prisma.tasks.update({
             where:{
                 id: params.id
             }
             ,data:{
-                title,
-                description,
+                
+                
                 isCompleted
             }
         })
