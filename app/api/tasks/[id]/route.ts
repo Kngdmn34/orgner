@@ -55,7 +55,6 @@ export async function PUT ( req: Request, {params} : { params: {id:string}}){
             }
             ,data:{
                 
-                
                 isCompleted
             }
         })

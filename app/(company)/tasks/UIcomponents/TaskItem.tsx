@@ -7,6 +7,7 @@ import { TiDelete } from "react-icons/ti";
 import { MdOutlineDone, MdDeleteOutline } from "react-icons/md";
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { register } from 'module';
 
 
 interface TaskItemProps {
@@ -44,7 +45,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
 
     const taskUpdate = async (id: string) => {
         try {
-            const response = await axios.put(`/api/tasks/${id}`)
+            const response = await axios.put(`/api/tasks/${id}`, { isCompleted: !isCompleted })
             toast.success('Task Completed')
             return response.data
 
@@ -66,7 +67,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
                         ><MdDeleteOutline /></button>
 
                         <span>
-                            {isCompleted === true ? <MdOutlineDone className='text-green-600' /> : <button className='z-30' onClick={() => taskUpdate(id)}><RiLoader5Fill className='animate-spin' /></button>}
+                            {isCompleted === true ? <MdOutlineDone className='text-green-600' /> : <input type='checkbox' className='z-30' onClick={() => taskUpdate(id)} />}
                         </span>
                         <button className='flex z-20 ease-in delay-500' onClick={() => ToggleDes()}>
                             {vdescription == true ? <IoIosArrowUp className=' ease-in text-orange-700 drop-shadow-sm' /> : <IoIosArrowDown className='text-orange-700 drop-shadow-sm' />}
