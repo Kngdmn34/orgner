@@ -37,3 +37,31 @@ export async function DELETE (req: Request, {params}: {params: {id:string}}) {
 }
 
 }
+export async function PUT ( req: Request, {params} : { params: {id:string}}){
+  try{ 
+      const owner = await getCurrentOwner()
+      if(!owner) {
+          return null
+      }
+
+      const body = await req.json()
+      const { name , position, status } =  body
+
+      const updateTask = await prisma.zombie.update({
+          where:{
+              id: params.id
+          }
+          ,data:{
+            name,
+            position,
+            status
+          }
+      })
+
+return NextResponse.json({updateTask}, { status: 200})
+
+  }
+  catch(error){ 
+      return new NextResponse('ERROR', { status: 400})
+  }
+}
