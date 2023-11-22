@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, DropdownItem, Input, Link } from "@nextui-org/react";
 import { FieldValues, useForm, SubmitHandler } from 'react-hook-form';
@@ -17,6 +18,7 @@ const schema = yup
     .required()
 
 type FormData = {
+
     name: string;
     position: string;
 
@@ -48,7 +50,7 @@ export const ModifyModalApp: React.FC<ModifyModelProps> = ({
     useEffect(() => {
         setIsMounted(true);
 
-    }, []);
+    }, [isMounted]);
 
     if (!isMounted) {
         return null;
@@ -101,8 +103,6 @@ export const ModifyModalApp: React.FC<ModifyModelProps> = ({
                                         <label className="flex text-small text-left justify-start">Status</label>
                                         <input className="px-3 py-1 border shadow-sm" {...register('status')} type='text' placeholder='Current Status' required />
                                         <p>{errors.status?.message}</p>
-
-
 
                                     </span>
 

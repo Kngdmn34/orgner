@@ -27,9 +27,6 @@ export async  function GET () {
                 
 userId: owner.id as string ,
 
-            },
-            orderBy: {
-                name: 'asc'
             }
         })
         
