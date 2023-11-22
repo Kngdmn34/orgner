@@ -65,10 +65,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
 
                         <button className='z-20' onClick={() => deleteTask(id)}
                         ><MdDeleteOutline /></button>
+                        {isCompleted === true ?
+                            <span>
+                                <MdOutlineDone className='text-green-600' /> </span>
+                            : <span> <input type='checkbox' className='z-30' onClick={() => taskUpdate(id)} /></span>
 
-                        <span>
-                            {isCompleted === true ? <MdOutlineDone className='text-green-600' /> : <input type='checkbox' className='z-30' onClick={() => taskUpdate(id)} />}
-                        </span>
+
+                        }
                         <button className='flex z-20 ease-in delay-500' onClick={() => ToggleDes()}>
                             {vdescription == true ? <IoIosArrowUp className=' ease-in text-orange-700 drop-shadow-sm' /> : <IoIosArrowDown className='text-orange-700 drop-shadow-sm' />}
 
