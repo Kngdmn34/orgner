@@ -46,7 +46,7 @@ const Action: React.FC<ModelProps> = ({ id }) => {
 
             >
                 <DropdownItem  >
-                    <ModifyModalApp onOpen={onOpen} isOpen={isOpen} onOpenChange={onOpenChange} />
+                    <ModifyModalApp zombieId={id} onOpen={onOpen} isOpen={isOpen} onOpenChange={onOpenChange} />
                 </DropdownItem>
 
                 <DropdownItem onAction={() => deleteUser(id)} key="delete" className="text-danger text-center" color="danger">

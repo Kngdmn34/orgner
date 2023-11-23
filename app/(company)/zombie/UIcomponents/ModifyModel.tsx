@@ -74,7 +74,7 @@ export const ModifyModalApp: React.FC<ModifyModelProps> = ({
     const OnSubmit: SubmitHandler<FormData> = async (FormData) => {
 
         try {
-            axios.patch(`/api/zombie/${zombieId}`,)
+            axios.put(`/api/zombie/${zombieId}`,)
                 .then((res) => {
 
                     console.log(res.data)
