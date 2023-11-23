@@ -60,7 +60,7 @@ type FormData = {
 const schema = yup
     .object({
         employees: yup.number().required().integer().positive().max(500),
-        organisationName: yup.string().min(4).max(20).required().lowercase(),
+        organisationName: yup.string().strict().min(4).max(20).required().lowercase(),
         value: yup.string().required(),
         phase: yup.string().required(),
         age: yup.number().required().integer().positive().max(100),
