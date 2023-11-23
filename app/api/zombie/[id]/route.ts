@@ -37,7 +37,7 @@ export async function DELETE (req: Request, {params}: {params: {id:string}}) {
 }
 
 }
-export async function PUT ( req: Request, {params} : { params: {id:string}}){
+export async function PATCH  ( req: Request, {params} : { params: {id:string}}){
   
   try{ 
       const owner = await getCurrentOwner()
@@ -48,17 +48,9 @@ export async function PUT ( req: Request, {params} : { params: {id:string}}){
       const { id } = params
 
       const body = await req.json()
-      const { userId, name , position, status } =  body
+      const {  name , position, status } =  body
 
-      const chkupdate = await prisma.zombie.findFirst({
-        where: { 
-          userId: owner.id as string 
-        }
-      })
-      if (!chkupdate) {
-        // No zombie found for the current owner
-        return new NextResponse('Zombie not found', { status: 404 });
-      }
+      
 
       const updateTask = await prisma.zombie.update({
           where:{
@@ -66,7 +58,7 @@ export async function PUT ( req: Request, {params} : { params: {id:string}}){
               
           }
           ,data:{
-            userId: owner.id as string ,
+            
             name,
             position,
             status
