@@ -48,7 +48,7 @@ export async function PUT ( req: Request, {params} : { params: {id:string}}){
       const { id } = params
 
       const body = await req.json()
-      const {  name , position, status } =  body
+      const { userId, name , position, status } =  body
 
       const chkupdate = await prisma.zombie.findFirst({
         where: { 
@@ -66,7 +66,7 @@ export async function PUT ( req: Request, {params} : { params: {id:string}}){
               
           }
           ,data:{
-            
+            userId: owner.id as string ,
             name,
             position,
             status
