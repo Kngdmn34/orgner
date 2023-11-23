@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, DropdownItem, Input, Link } from "@nextui-org/react";
-import { FieldValues, useForm, SubmitHandler, set } from 'react-hook-form';
+import { FieldValues, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import axios from 'axios'

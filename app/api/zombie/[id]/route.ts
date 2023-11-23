@@ -45,12 +45,14 @@ export async function PUT ( req: Request, {params} : { params: {id:string}}){
         return new NextResponse('ERROR')
       }
 
+      const { id } = params
+
       const body = await req.json()
       const {  name , position, status } =  body
 
       const updateTask = await prisma.zombie.update({
           where:{
-              id: params.id
+              id
           }
           ,data:{
             
