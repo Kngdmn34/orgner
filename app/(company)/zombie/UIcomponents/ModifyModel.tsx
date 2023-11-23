@@ -2,15 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, DropdownItem, Input, Link } from "@nextui-org/react";
-import { FieldValues, useForm, SubmitHandler } from 'react-hook-form';
+import { FieldValues, useForm, SubmitHandler, set } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import axios from 'axios'
 import toast from 'react-hot-toast';
-import { IoMdAdd } from 'react-icons/io'
+
 
 const schema = yup
     .object({
+
         name: yup.string().min(4).max(30).required(),
         position: yup.string().min(4).max(30).required(),
         status: yup.string().min(2).max(30).required()
@@ -28,13 +29,15 @@ type FormData = {
 interface ModifyModelProps {
     isOpen: boolean;
     onOpen: () => void;
-    onOpenChange: () => void
+    onOpenChange: () => void;
+    zombieId: string
 }
 
 export const ModifyModalApp: React.FC<ModifyModelProps> = ({
     isOpen,
     onOpen,
-    onOpenChange
+    onOpenChange,
+    zombieId
 }) => {
 
     const [isMounted, setIsMounted] = useState(false)
@@ -43,10 +46,22 @@ export const ModifyModalApp: React.FC<ModifyModelProps> = ({
         register,
         handleSubmit,
         formState: { errors },
+        setValue,
     } = useForm({
         resolver: yupResolver(schema),
     })
+    useEffect(() => {
+        if (zombieId) {
+            axios.get(`/api/zombie/${zombieId}`)
+                .then((res) => {
+                    const zombieData = res.data;
+                    setValue("name", zombieData.name)
+                    setValue("position", zombieData.position)
+                    setValue("status", zombieData.status)
 
+                }).catch((error) => console.log('Error', error))
+        }
+    })
     useEffect(() => {
         setIsMounted(true);
 
@@ -56,10 +71,10 @@ export const ModifyModalApp: React.FC<ModifyModelProps> = ({
         return null;
     }
 
-    const OnSubmit: SubmitHandler<FormData> = (data) => {
+    const OnSubmit: SubmitHandler<FormData> = async (FormData) => {
 
         try {
-            axios.patch('/api/zombie', data)
+            axios.patch(`/api/zombie/${zombieId}`,)
                 .then((res) => {
 
                     console.log(res.data)

@@ -72,8 +72,10 @@ const TaskPage = () => {
                 <div className='w-full flex-col space-y-5 justify-center'>
                     <span className='flex flex-row justify-center mt-5 space-x-5 '>
                         <span className='flex border-2 p-1 rounded-lg text-sm '>In Progress: {tasks?.filter((task) => (!task.isCompeted)).length}</span>
+                        <Model isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
                     </span>
                     <hr className='w-72 mx-auto' />
+
                     <ul className='w-full mt-16'>
                         {tasks?.map((task) => (
                             <li key={task.id}><TaskItem id={task.id} title={task.title} description={task.description} isCompleted={task.isCompeted} /> </li>
