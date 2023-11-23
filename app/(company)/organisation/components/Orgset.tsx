@@ -49,25 +49,19 @@ const options = [
     }
 
 ]
-type FormData = {
-    organisationName: string;
-    employees: number;
-    value: string;
-    phase: string;
-    age: number
-};
+
 
 const schema = yup
     .object({
         employees: yup.number().required().integer().positive().max(500),
-        organisationName: yup.string().strict().min(4).max(20).required().lowercase(),
+        organisationName: yup.string().strict().min(4).max(20).required().lowercase().matches(/^[a-z]+$/),
         value: yup.string().required(),
         phase: yup.string().required(),
         age: yup.number().required().integer().positive().max(100),
 
     })
     .required()
-
+type FormData = yup.InferType<typeof schema>;
 
 const Orgset = () => {
 
