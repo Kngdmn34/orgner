@@ -50,9 +50,20 @@ export async function PUT ( req: Request, {params} : { params: {id:string}}){
       const body = await req.json()
       const {  name , position, status } =  body
 
+      const chkupdate = await prisma.zombie.findFirst({
+        where: { 
+          userId: owner.id as string 
+        }
+      })
+      if (!chkupdate) {
+        // No zombie found for the current owner
+        return new NextResponse('Zombie not found', { status: 404 });
+      }
+
       const updateTask = await prisma.zombie.update({
           where:{
-              id
+              id: params.id
+              
           }
           ,data:{
             
