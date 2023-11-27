@@ -68,7 +68,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
 
 
 
-                        <input type='checkbox' className='z-40' onClick={() => taskUpdate(id)} />
+                        <input checked={isCompleted} type='checkbox' className='z-40' onClick={() => taskUpdate(id)} />
 
 
 
