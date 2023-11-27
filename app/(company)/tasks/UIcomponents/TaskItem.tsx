@@ -58,7 +58,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
 
     return (
         <>
-            <div className={` mx-auto overflow-hidden w-[96%] ${vdescription ? `border-l-2 border-r-2 border-t-2 shadow-none` : `border-2  shadow-md`}  p-1 rounded-lg`}>
+            <div className={` mx-auto overflow-hidden w-[96%] ${vdescription ? `border-l-2 border-r-2 border-t-2 shadow-none` : `border-2  shadow-md`} ${isCompleted ? `bg-green-800` : ``}  p-1 rounded-lg`}>
                 <span className='flex z-10  w-full items-center justify-between '>
                     <h1>{title}</h1>
                     <span className='flex flex-row items-center space-x-5'>
@@ -68,7 +68,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
 
 
 
-                        <input type='checkbox' className='z-30' onClick={() => taskUpdate(id)} />
+                        <input type='checkbox' className='z-40' onClick={() => taskUpdate(id)} />
 
 
 

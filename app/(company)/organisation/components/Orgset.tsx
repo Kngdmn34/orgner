@@ -54,7 +54,7 @@ const options = [
 const schema = yup
     .object({
         employees: yup.number().required().integer().positive().max(500),
-        organisationName: yup.string().strict().min(4).max(20).required().lowercase().matches(/^[a-z]+$/),
+        organisationName: yup.string().strict().min(4).max(20).required().lowercase().matches(/^[a-z]+$/, 'Only Text Required'),
         value: yup.string().required(),
         phase: yup.string().required(),
         age: yup.number().required().integer().positive().max(100),

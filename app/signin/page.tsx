@@ -4,6 +4,7 @@ import React from 'react';
 import Auth from '../components/Auth';
 
 const SigninPage = () => {
+
     return (
         <main className="relative">
             <span className=' flex w-full justify-center p-5'>
