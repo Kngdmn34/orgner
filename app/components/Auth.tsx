@@ -47,7 +47,7 @@ const AuthForum = () => {
                     <form >
                         <span className='flex flex-row space-x-5 items-center '>
                             <SocialButton disabled={loading} onClick={() => SocialAction('github')} ><AiFillGithub /></SocialButton>
-                            <SocialButton disabled={true} onClick={() => SocialAction('google')} ><FcGoogle /></SocialButton>
+                            <SocialButton disabled={loading} onClick={() => SocialAction('google')} ><FcGoogle /></SocialButton>
                         </span>
                     </form>
                 </div>
