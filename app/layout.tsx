@@ -28,7 +28,7 @@ export default function RootLayout({
           <NextProvider>
             <Provider >
 
-              <NextTopLoader color='#fbeddb' showSpinner={true} height={6} />
+              <NextTopLoader showSpinner={false} height={6} />
               <ToasterUIProvider />
 
 

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useTransition, useEffect } from 'react';
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { RiLoader5Fill } from "react-icons/ri";
 import { TiDelete } from "react-icons/ti";
@@ -14,11 +14,12 @@ interface TaskItemProps {
     id: string
     title: string;
     description?: string
-    isCompleted?: boolean
+    isCompleted: boolean
+    isChecked: boolean
 
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted, isChecked }) => {
 
     const [vdescription, setVdescription] = useState(false)
 
@@ -32,6 +33,9 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
         }
 
     }
+
+
+
 
     const deleteTask = async (id: string) => {
         try {
@@ -48,7 +52,10 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
         try {
             const response = await axios.put(`/api/tasks/${id}`, { isCompleted: !isCompleted })
             toast.success('Task Completed')
+
             return response.data
+
+
 
         }
 
@@ -61,7 +68,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
         <>
             <div className={` mx-auto overflow-hidden w-[96%] ${vdescription ? `border-l-2 border-r-2 border-t-2 shadow-none` : `border-2  shadow-md`} ${isCompleted == true ? `bg-green-800` : ``}  p-1 rounded-lg`}>
                 <span className='flex z-10  w-full items-center justify-between '>
-                    <h1>{title}</h1>
+                    <label htmlFor={id}>{title}</label>
                     <span className='flex flex-row items-center space-x-5'>
 
                         <button className='z-20' onClick={() => deleteTask(id)}
@@ -69,7 +76,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
 
 
 
-                        <input defaultChecked={isCompleted} type='checkbox' className='z-40' onClick={() => taskUpdate(id)} />
+
 
 
 

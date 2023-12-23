@@ -23,6 +23,9 @@ return new NextResponse('Unauthorized')
         
       }
     })
+    if (!organisation) { 
+      return NextResponse.error()
+    }
 
     return  NextResponse.json({organisation}, {status: 201})
 

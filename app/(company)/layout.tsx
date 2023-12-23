@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 }
 
 const CompanyLayout = ({
-    children,
+    children
 }: {
     children: React.ReactNode
 }) => {
@@ -29,21 +29,10 @@ const CompanyLayout = ({
     return (
 
 
-        <section  >
+        <body  >
+            {children}
 
-
-
-            <div className='flex flex-row space-x-5'>
-
-
-                <SideBar />
-                {children}
-
-            </div>
-
-
-
-        </section>
+        </body>
 
     )
 }

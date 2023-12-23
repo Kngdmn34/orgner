@@ -12,6 +12,10 @@ import ModalApp from './UIcomponents/Modal';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { AiOutlineLeft } from 'react-icons/ai'
 import clsx from 'clsx';
+import SideBar from '@/app/components/SideBar';
+import Cvs from './UIcomponents/Cvs';
+import AddDropDown from './UIcomponents/AddDropdown';
+import { pages } from 'next/dist/build/templates/app-page';
 
 
 
@@ -31,9 +35,26 @@ const Zombiespage = () => {
 
     const [query, setQuery] = useState('')
     const [loading, setLoading] = useState(false)
-    const [zombies, setZombie] = useState<zombieslist[] | null>([])
-    const router = useRouter()
+    const [zombies, setZombie] = useState<zombieslist[]>([])
 
+    const router = useRouter()
+    const [navbar, setNavbar] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [personPrPage, setPersonPrPage] = useState(5);
+
+
+    const lastIndex = currentPage * personPrPage;
+    const firstIndex = lastIndex - personPrPage;
+    const currentPersons = zombies.slice(firstIndex, lastIndex);
+
+    const totalPersons = zombies.length;
+
+    let Pages = [];
+
+    for (let i = 1; i <= Math.ceil(totalPersons / personPrPage); i++) {
+        Pages.push(i)
+        console.log(Pages)
+    }
 
 
 
@@ -68,87 +89,176 @@ const Zombiespage = () => {
         return <div className='flex justify-center items-center'> <BiLoaderAlt size={30} /> </div>
     }
 
-
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const searchTerm = e.target.value;
+        setQuery(searchTerm);
+        // Reset to the first page when searching
+    };
 
 
     return (
-        <main className='flex border-2  w-full m-6 rounded-lg shadow-xl dark:shadow-purple-800'>
-            <div className='flex flex-col w-full space-y-10'>
-                <div className='flex pt-5 flex-row items-center space-x-3' >
-                    <button className='p-4' onClick={() => router.back()}><AiOutlineLeft size={20} /></button>
-                    <h1 className='p-4 border-l tracking-widest drop-shadow-sm'>WORKERS</h1>
+        <main className='flex'>
+            <SideBar navbar={navbar} setNavbar={setNavbar} />
+            <main className={`flex ${navbar ? `-translate-x-16 ` : `translate-x-0`} ease-in-out duration-300  border-2 border-neutral-700 w-full m-6 rounded-lg shadow-xl dark:shadow-purple-800`}>
+                <div className='flex flex-col w-full space-y-2'>
+                    <div className='flex pt-5 flex-row items-center space-x-3' >
+                        <button className='p-4' onClick={() => router.back()}><AiOutlineLeft size={20} /></button>
+                        <h1 className='p-4 border-l tracking-widest drop-shadow-sm'>WORKERS</h1>
 
-                </div>
+                    </div>
 
-                <hr className='w-[80%] mx-auto' />
-                <div className={clsx(`flex  items-center space-x-5 justify-center mx-5 ${zombies?.length == 0 ? `justify-center` : `justify-between`}`)}>
-                    {zombies?.length !== 0 ?
+
+                    <div className={clsx(`flex  items-center space-x-5 justify-center mx-5 `)}>
+
+                        {/*<Cvs />*/}
+
                         <span>
-                            <input onChange={(e) => setQuery(e.target.value)} placeholder='Search ... ' className='border-2 p-1 rounded-lg' />
+                            <ModalApp />
                         </span>
-                        :
-                        ''
-                    }
 
+                    </div>
+                    <hr className='w-[80%] mx-auto' />
+                    <span className='mx-11 flex flex-row justify-between space-x-4 items-center'>
 
-                    <ModalApp />
+                        <span>
+                            {zombies.length > 5 &&
+                                <span>
+                                    <input onChange={handleSearch} placeholder='Search ... ' className='border-2 p-1 rounded-lg' />
+                                </span>
 
-                </div>
-                {zombies?.length == 0 ? <div className='flex justify-center items-center w-full h-52 drop-shadow-md'>Click + to add workers</div> :
-                    <Suspense fallback={<p>Getting your Workers</p>}>
-                        <div className='flex w-full justify-center '>
-                            <div className="relative  w-full overflow-x-auto">
-                                <table className="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    <thead className="text-xs  text-gray-700 uppercase bg-gray-50 dark:bg-neutral-900 dark:text-gray-400">
-                                        <tr>
-                                            <th scope="col" className="px-6 py-3">
-                                                Workers
-                                            </th>
-                                            <th scope="col" className="px-6 py-3">
-                                                Role
-                                            </th>
-                                            <th scope="col" className="px-6 py-3">
-                                                Status
-                                            </th>
-                                            <th scope="col " className="text-left px-6 py-3">
-                                                Action
-                                            </th>
+                            }
+                        </span>
+                        <span className='flex border-2 rounded-lg p-1 flex-row space-x-1' >
+                            <p>Total </p> <p>{zombies?.length}</p>
+                        </span>
+                        <span className='w-full flex justify-end'>
+                            {Pages.map((pageNumber) => (
+                                <button
+                                    key={pageNumber}
+                                    onClick={() => setCurrentPage(pageNumber)}
+                                    className={`px-3 border rounded-lg py-1 mx-1 text-sm focus:outline-none ${currentPage === pageNumber ? `font-bold` : ``}`}
+                                >
+                                    {pageNumber}
+                                </button>
+                            ))}
+                        </span>
+                    </span>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        {zombies?.filter(zombie => zombie.name.toLowerCase().includes(query)).map((zombie, id) => (
-                                            <>
-                                                <tr key={id} className="bg-white border-b dark:bg-neutral-800 dark:border-gray-700">
-
-                                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {zombie.name}
+                    {zombies?.length == 0 ? <div className='flex justify-center items-center w-full h-52 drop-shadow-md'>Click + to add workers</div> :
+                        <Suspense fallback={<p>Getting your Workers</p>}>
+                            {query === "" &&
+                                <div className='flex w-full justify-center '>
+                                    <div className="relative  w-full overflow-x-auto">
+                                        <table className="w-full mt-3  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                            <thead className="text-xs  text-gray-700 uppercase bg-gray-50 dark:bg-neutral-900 dark:text-gray-400">
+                                                <tr>
+                                                    <th scope="col" className="px-6 py-3">
+                                                        Workers
+                                                    </th>
+                                                    <th scope="col" className="px-6 py-3">
+                                                        Role
+                                                    </th>
+                                                    <th scope="col" className="px-6 py-3">
+                                                        Status
+                                                    </th>
+                                                    <th scope="col " className="text-left px-6 py-3">
+                                                        Action
                                                     </th>
 
-                                                    <td className="px-6 py-4">
-                                                        {zombie.position}
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {zombie.status}
-                                                    </td>
-
-                                                    <td className="px-6 w-16 py-4">
-                                                        <Action id={zombie.id} />
-                                                    </td>
-
-
                                                 </tr>
-                                            </>
+                                            </thead>
+                                            <tbody>
 
-                                        ))}
-                                    </tbody>
-                                </table>
+                                                {currentPersons?.filter((person) => person.name.toLowerCase().includes(query)).map((zombie, id) => (
+                                                    <>
+                                                        <tr key={id} className="bg-white border-b dark:bg-neutral-800 dark:border-gray-700">
+
+                                                            <th scope="row" className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                                {zombie.name}
+                                                            </th>
+
+                                                            <td className="px-6 py-2">
+                                                                {zombie.position}
+                                                            </td>
+                                                            <td className="px-6 py-2">
+                                                                {zombie.status}
+                                                            </td>
+
+                                                            <td className="px-6 w-16 py-2">
+                                                                <Action id={zombie.id} />
+                                                            </td>
+
+
+                                                        </tr>
+                                                    </>
+
+                                                ))}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            }
+                        </Suspense>
+                    }
+                    {query !== "" &&
+                        <Suspense fallback={<p>Getting your Workers</p>}>
+                            <div className='flex w-full justify-center '>
+                                <div className="relative  w-full overflow-x-auto">
+                                    <table className="w-full mt-3  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                        <thead className="text-xs  text-gray-700 uppercase bg-gray-50 dark:bg-neutral-900 dark:text-gray-400">
+                                            <tr>
+                                                <th scope="col" className="px-6 py-3">
+                                                    Workers
+                                                </th>
+                                                <th scope="col" className="px-6 py-3">
+                                                    Role
+                                                </th>
+                                                <th scope="col" className="px-6 py-3">
+                                                    Status
+                                                </th>
+                                                <th scope="col " className="text-left px-6 py-3">
+                                                    Action
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {zombies?.filter((person) => person.name.toLowerCase().includes(query)).map((zombie, id) => (
+                                                <>
+                                                    <tr key={id} className="bg-white border-b dark:bg-neutral-800 dark:border-gray-700">
+
+                                                        <th scope="row" className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                            {zombie.name}
+                                                        </th>
+
+                                                        <td className="px-6 py-2">
+                                                            {zombie.position}
+                                                        </td>
+                                                        <td className="px-6 py-2">
+                                                            {zombie.status}
+                                                        </td>
+
+                                                        <td className="px-6 w-16 py-2">
+                                                            <Action id={zombie.id} />
+                                                        </td>
+
+
+                                                    </tr>
+                                                </>
+
+                                            ))}
+                                        </tbody>
+                                    </table>
+
+                                </div>
                             </div>
-                        </div>
-                    </Suspense>
-                }
-            </div>
+                        </Suspense>
+                    }
+
+                </div>
+            </main>
         </main>
     )
 }

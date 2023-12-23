@@ -40,58 +40,48 @@ userId: owner.id as string ,
 
 }
 
-export async function POST (req: Request) { 
-
-    try { 
-        const owner = await getCurrentOwner()
-        if(!owner){ 
-            return new NextResponse('ERROR')
-        }
-
-        
-
-        const body = await req.json();
-
-
-        const {userId, position, name  } = body 
-
-        //check if already created 
-
-        const checkifFound = await prisma.zombie.findUnique({ 
-            where: { 
-                name,
-                position,
-                
-            },
-            
-        })
-        if(checkifFound?.name || checkifFound?.position ) { 
-            
-            return  NextResponse.error()
-
-        }
-
-        const newZombie = await prisma.zombie.create({
-            data: { 
-                userId: owner.id as string ,
-                position,
-                name,
-                
-                
-            },
-            
-        })
-
-
-        return (NextResponse.json(newZombie))
-
+export async function POST(req: Request) {
+    try {
+      const owner = await getCurrentOwner();
+  
+      if (!owner) {
+        return new NextResponse('Unauthorized', { status: 401 });
+      }
+  
+      const body = await req.json();
+      const { userId, position, name } = body;
+  
+      if (!name || !position) {
+        return new NextResponse('Name and position are required fields', { status: 400 });
+      }
+  
+      // Check if already created
+      const checkifFound = await prisma.zombie.findUnique({
+        where: {
+          name,
+          position,
+        },
+      });
+  
+      if (checkifFound) {
+        return new NextResponse('Zombie already exists', { status: 400 });
+      }
+  
+      const newZombie = await prisma.zombie.create({
+        data: {
+          userId: owner.id as string,
+          position,
+          name,
+        },
+      });
+  
+      return NextResponse.json(newZombie, { status: 201 });
+    } catch (error) {
+      console.error('Zombie POST ERROR', error);
+      return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
     }
-    catch(error) { 
-console.log('Zombie POST ERROR', error)
-    }
-
-}
-
+  }
+  
 
 export async function PATCH (req: Request) {
     try {

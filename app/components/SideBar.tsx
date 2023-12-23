@@ -24,21 +24,28 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { BiMenuAltLeft, BiMenu } from 'react-icons/bi'
 
 
+interface SidebarProps {
+
+    navbar: boolean
+    setNavbar: (value: boolean) => void
+    label?: boolean
+}
 
 
 
 
 
-const SideBar = () => {
+const SideBar: React.FC<SidebarProps> = ({ navbar, setNavbar, label }) => {
 
-    const [open, isOpen] = useState(true)
-    const [navbar, setNavbar] = useState(false)
+
+
 
     const branches = [
         {
             label: 'Organisation',
             icon: <LiaConnectdevelop size={20} />,
-            Link: '/organisation'
+            Link: '/organisation',
+            bg: `bg-red-400`
         },
         {
 
@@ -54,6 +61,7 @@ const SideBar = () => {
         },
         {
             label: 'Development',
+            bg: `bg-green-400`,
             icon: <AiOutlineStock size={20} />,
             Link: '/dev'
         },
@@ -68,29 +76,26 @@ const SideBar = () => {
 
     const session = useSession();
 
-    const sidebarToggle = () => {
-        if (open == true) {
-            isOpen(false)
-            setNavbar(false)
-        } else if (open == false) {
-            isOpen(true)
-            setNavbar(true)
-        }
+    const toggleSideBar = () => {
+        setNavbar(!navbar)
+
     }
 
     //next update make a dynamic sidebar
     return (
         <Suspense fallback={<div>Loading</div>}>
 
-            <div className={` skicky shadow-lg relative  w-72 z-10 min-h-screen dark:bg-neutral-950 bg-gray-50 ${navbar ? `-translate-x-36 duration-400` : `translate-x-0 duration-400`}`}>
-                <button onClick={() => sidebarToggle()} className={`hidden absolute p-3 z-10  ${navbar ? `right-10` : `right-0`}`} >
-                    {open == true ? <BiMenuAltLeft size={20} /> : <BiMenu size={20} />}
+            <div className={`stickey shadow-lg left-0  w-52 z-10 min-h-screen dark:bg-neutral-950 bg-gray-50 ${navbar ? `-translate-x-36 duration-400` : `translate-x-0 duration-400`}`}>
+
+                {!label && <button onClick={() => toggleSideBar()} className={` absolute p-3 z-10  ${navbar ? `-right-5` : `right-0`}`} >
+                    {navbar == true ? <BiMenuAltLeft size={20} /> : <BiMenu size={20} />}
                 </button>
+                }
 
                 <div className={`mx-2  flex ${navbar ? `justify-end items-center translate-x-20 duration-500 ` : ` justify-between items-center space-x-10`} `}>
                     <div className={`mt-11 ${navbar ? `` : `w-full border-neutral-300 border-b  p-3 px-3 `}`}>
-                        <div className={`flex ${navbar ? `justify-end items-center translate-x-3 duration-500 ` : ` justify-between items-center space-x-10`}  `}>
-                            <div className='flex'>
+                        <div className={`flex ${navbar ? `justify-end items-center translate-x-3 duration-500 ` : ` justify-between items-center `}  `}>
+                            <div className={`flex   ${!navbar ? `` : `  absolute mt-3 right-16`}`}>
                                 <AvatarCom />
                             </div>
                             <div className={`flex  items-center ${navbar ? `-translate-x-96 duration-400` : `translate-x-0 duration-400`}`}>
@@ -104,28 +109,60 @@ const SideBar = () => {
 
 
                 </div>
-                <span className='flex mx-auto mt-2 rounded-lg text-sm border dark:text-neutral-800 bg-yellow-200 w-[72%] items-center'><IoMdInformationCircleOutline /> <p className='ml-6 text-small'>Testing Beta</p></span>
-                <div className={`flex flex-col space-y-28 ${navbar ? `-translate-x-96 duration-400 ` : `-translate-x-0 duration-400`}`}>
-                    <div className='mt-10'>
-                        <div className=''>
-                            <div className='mx-5 w-full text-normal tracking-wide font-semibold flex  flex-col items-start space-y-5 '>
-                                <ul>
-                                    {branches.map((branche, id) => (
-                                        <Link href={`${branche.Link}`} key={id} className='px-4 '  >
-                                            <div className='flex py-2 px-3  flex-row space-x-5 overflow-hidden items-center tracking-wider hover:translate-x-8 transition-transform  duration-500  '>
-                                                <span>{branche.icon}</span>
-                                                <h1 >{branche.label}</h1>
-                                            </div>
-                                        </Link>
-                                    ))}
-                                </ul>
+                {!navbar &&
+                    <span className='flex mx-auto mt-2 rounded-lg text-sm border dark:text-neutral-800 bg-yellow-200 w-[72%] items-center'><IoMdInformationCircleOutline /> <p className='ml-6 text-small'>Testing Beta</p></span>
+                }
+                {!navbar ?
+                    <div className={`flex flex-col space-y-28 ${navbar ? `-translate-x-96 duration-400 ` : `-translate-x-0 duration-400`}`}>
+                        <div className='mt-10'>
+                            <div className=''>
+                                <div className='mx-5 w-full text-normal tracking-wide font-semibold flex  flex-col  space-y-5 '>
+                                    <ul>
+                                        {branches.map((branche, id) => (
+                                            <Link href={`${branche.Link}`} key={id} className={``}  >
+
+
+
+                                                <div className={`flex py-2 px-3 translate-x-0 flex-row space-x-5 overflow-hidden items-center tracking-wider hover:translate-x-8 transition-transform  duration-500  `}>
+                                                    <span>{branche.icon}</span>
+
+                                                    <h1 >{branche.label}</h1>
+                                                </div>
+
+                                            </Link>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    :
+                    <div className={`flex flex-col space-y-28 ${!navbar ? `-translate-x-72 duration-400 ` : `translate-x-32 duration-400`}`}>
+                        <div className='mt-10'>
+                            <div className=''>
+                                <div className='mx-5 w-full text-normal tracking-wide font-semibold flex  flex-col  space-y-5 '>
+                                    <ul>
+                                        {branches.map((branche, id) => (
+                                            <Link href={`${branche.Link}`} key={id} className=' '  >
 
-                <div className='absolute w-52 bottom-1.5 cursor-default '>
-                    <hr className='w-48 mb-2 mx-auto border-b' />
+
+
+                                                <div className={`flex py-2 px-3 drop-shadow-lg translate-x-0  overflow-hidden items-center tracking-wider hover:translate-x-8 transition-transform  duration-500  `}>
+                                                    <span>{branche.icon}</span>
+
+                                                </div>
+
+                                            </Link>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div className={`absolute ${!navbar ? `w-52` : `w-11`} bottom-1.5 cursor-default `}>
+
+                    <hr className='w-full mb-2 mx-auto border-b' />
                     <div className=' mx-3 flex flex-row justify-between space-x-4 items-center  '>
                         <h2 className='drop-shadow-md text-tiny text-neutral-600  text-opacity-80 border-double border-t-8 border-b-8 rounded-br-large opacity-30  border-neutral-600   rounded-tl-large '>ORGNER</h2>
                         <Image className='drop-shadow-md' alt='' src={Kngdmn} width={20} height={20} />

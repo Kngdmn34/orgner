@@ -29,6 +29,7 @@ interface ModalProps {
 export default function ModalApp() {
     const [loading, setLoading] = useState(false)
 
+
     const {
         register,
         handleSubmit,
@@ -38,6 +39,8 @@ export default function ModalApp() {
     })
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+
 
     const OnSubmit: SubmitHandler<FormData> = (data) => {
         setLoading(true)
@@ -60,7 +63,7 @@ export default function ModalApp() {
 
     return (
         <>
-            <Button onPress={onOpen} size="sm" variant="ghost" className="shadow-sm"> <IoMdAdd /> </Button>
+            <Button onPress={onOpen} size="sm" variant="ghost" className="w-full shadow-sm"> Add One </Button>
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}

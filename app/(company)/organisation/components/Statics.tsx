@@ -1,9 +1,9 @@
 'use client'
 
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
-
+import axios from 'axios';
 
 //icons
 import { FaUsers } from 'react-icons/fa';
@@ -15,6 +15,8 @@ import { AiOutlineRadarChart } from 'react-icons/ai';
 import { GoLaw } from 'react-icons/go'
 import Healthcheck from './Healthcheck';
 import Loading from '../loading';
+import Laws from './Laws';
+import { Button, useDisclosure } from '@nextui-org/react';
 
 
 
@@ -23,17 +25,25 @@ interface StaticsProps {
         organisationName: string;
         employees: number;
         phase: string;
-
+        country: string;
         value: string;
     };
+
 }
+
+type TasksData = {
+    tasks: number
+}
+
+
 
 
 const Statics: React.FC<StaticsProps> = ({ OrganisationData }) => {
 
     const router = useRouter();
     const [loading, setLoading] = useState(false)
-
+    const [tsks, setTsks] = useState<TasksData[] | null>([])
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const sections = [
         {
@@ -48,7 +58,7 @@ const Statics: React.FC<StaticsProps> = ({ OrganisationData }) => {
             id: 2,
             name: 'Tasks',
             icon: <AiOutlineRadarChart size={30} className='text-orange-900 drop-shadow-sm' />,
-            props: `NONE`,
+            props: `${tsks?.length}`,
             link: `/tasks`,
             shadow: `shadow-orange-800`
         },
@@ -72,6 +82,43 @@ const Statics: React.FC<StaticsProps> = ({ OrganisationData }) => {
 
     ]
 
+
+
+
+
+    const lawsCondition = [
+        {
+            label: 'Challenging',
+            value: 'morocco',
+            description: "Morocco aspires to establish a business law that promotes the economic development of the country and settles disputes in an appropriate and effective manner. A new legal framework, based on a clear and predictable structure and content, that is reasonably applied by the economic actors and wisely interpreted by the Moroccan courts. In order to achieve this goal, Morocco has launched, since the early 1990s, a series of legal reforms designed to modernise the legal and regulatory framework for business, amend and modify several legislation and codes including: the commercial code, the investment charter, the intellectual property law, the law on freedom of pricing and competition, the law on public-private partnership, the law on public limited companies and the arbitration act. Furthermore, Morocco's accession to the world trade organization, the ratification of the free trade agreement with the United States and the partnership agreements with the European Union have served as a catalyst for the process of legislative reform. The main projects of reform that have been adopted in recent years are listed hereunder: The adoption of the law on public-private partnership (in 2020); The adoption of the Movable Collateral Act / Personal Property Security Act (in 2019); The adoption of the deconcentration charter (in 2019); The reform of book V of the commercial code on the regulation of corporate insolvency (in 2018); The reform of law no. 17.95 on public limited companies (in 2019 and 2015); The adoption of law no.104.12 on the freedom of pricing and competition (in 2014); The adoption of Law no. 103.12 relating to credit institutions and similar bodies (in 2014); Similarly, other projects are in progress in order to establish a transparent and predictable investment climate such as: the investment charter. The Moroccan business law is currently experiencing far-reaching changes. Moreover, the long-term efforts made by the country have contributed to establishing a modern business environment for investors by aligning with international standards in some areas.",
+
+        },
+        {
+            label: 'Oppurtinity',
+            value: 'uae',
+            description: ''
+        },
+        {
+            label: 'Challenging',
+            value: 'french',
+            description: ''
+        },
+        {
+            label: 'Risky',
+            value: 'uk',
+            description: ''
+        }
+    ]
+    const checkCountryValue = () => {
+        const matchedCondition = lawsCondition.find((condition) => condition.value === OrganisationData.country);
+
+        return matchedCondition && matchedCondition.label
+    }
+    const lawsResult = () => {
+        const matchedCondition = lawsCondition.find((condition) => condition.value === OrganisationData.country);
+        return matchedCondition && matchedCondition.description
+    }
+
     const sectionsEx = [
         {
             id: 1,
@@ -85,9 +132,10 @@ const Statics: React.FC<StaticsProps> = ({ OrganisationData }) => {
             id: 2,
             name: 'Laws',
             icon: <GoLaw size={30} className='text-teal-900 drop-shadow-sm' />,
-            props: `NONE`,
+            props: `${checkCountryValue()}`,
             link: `/`,
-            shadow: `shadow-teal-800`
+            shadow: `shadow-teal-800`,
+
         },
 
 
@@ -105,12 +153,38 @@ const Statics: React.FC<StaticsProps> = ({ OrganisationData }) => {
         }
     ]
 
+
+
+    useEffect(() => {
+        setLoading(true)
+        axios.get('/api/tasks')
+            .then((res) => {
+                // Check if the response contains data
+                if (res.data && res.data.tasks) {
+
+                    setTsks(res.data.tasks);
+
+                    setLoading(false)
+                    console.log(res.data.tasks)
+                } else {
+                    console.log('No organization data found');
+                    setLoading(false)
+                }
+            })
+            .catch((error) => {
+                console.error('API request error:', error);
+                setLoading(false)
+            });
+    }, []);
+
+
+
     return (
         <Suspense fallback={'loading'}>
             <div className='w-full  overflow-hidden  '>
                 <span className='flex pt-5 mx-10 w-[86%] items-center flex-row space-x-10'>
                     <h1 className=' tracking-wide font-semibold text-3xl text-neutral-800 dark:text-neutral-300 drop-shadow-sm'>
-                        {OrganisationData.organisationName.toUpperCase().slice(0, 15)}
+                        {OrganisationData?.organisationName.toUpperCase().slice(0, 15)}
 
 
                     </h1>
@@ -166,7 +240,7 @@ const Statics: React.FC<StaticsProps> = ({ OrganisationData }) => {
                         <span className='mx-6 flex flex-col items-center space-y-3'>
 
                             {sectionsEx.map((section) => (
-                                <span onClick={() => alert('will be Avaible next update')} key={section.id} className='hover:scale-105 transition-transform' >
+                                <span onClick={() => alert('Function will be added next update')} key={section.id} className='hover:scale-105 transition-transform' >
 
                                     <div className={`relative flex flex-row space-x-3  bg-gray-50/50 dark:bg-neutral-950 rounded-md w-48 p-2 shadow-sm ${section.shadow} `}>
                                         <div className='w-20 flex flex-col space-y-3 items-center drop-shadow-sm'>
