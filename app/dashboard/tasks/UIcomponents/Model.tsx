@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import axios from 'axios'
 import toast from 'react-hot-toast';
+import { mutate, useSWRConfig } from 'swr';
 
 interface ModelTaskProps {
     isOpen: boolean;
@@ -33,6 +34,7 @@ type FormData = {
 
 const Model: React.FC<ModelTaskProps> = ({ isOpen, onOpen, onOpenChange }) => {
 
+    const { mutate } = useSWRConfig()
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     }
@@ -52,8 +54,8 @@ const Model: React.FC<ModelTaskProps> = ({ isOpen, onOpen, onOpenChange }) => {
             axios.post('/api/tasks', data)
                 .then((res) => {
                     if (res.data && res.data.tasks) {
-                        console.log(res)
-                        toast.success('TASK ADDED')
+
+                        toast.success('TASK ADDED');
 
                     }
                 })
@@ -63,6 +65,8 @@ const Model: React.FC<ModelTaskProps> = ({ isOpen, onOpen, onOpenChange }) => {
                 })
         } catch (e) {
             console.log(e)
+        } finally {
+            mutate('/api/tasks')
         }
     }
 

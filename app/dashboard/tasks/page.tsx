@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem, useDisclosure } from "@nextui-org/react";
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-
+import useSWR from 'swr';
 
 //icons
 import { VscAdd } from "react-icons/vsc";
 import { AiOutlineLeft } from 'react-icons/ai'
 import { PiWarningCircleBold } from 'react-icons/pi'
 import getTasks from '@/app/action/getTasks';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import toast from 'react-hot-toast';
 import Model from './UIcomponents/Model';
 import TaskItem from './UIcomponents/TaskItem';
@@ -26,30 +26,24 @@ type Task = {
 
 }
 
-export const revalidate = 10
+const fetcher = async () => {
+
+    const respone: AxiosResponse<{ tasks: Task[] }> = await axios.get('/api/tasks')
+    if (respone.data && respone.data.tasks) {
+        return respone.data.tasks
+    }
+    return []
+
+}
 
 
 
 const TaskPage = () => {
 
-    const [tasks, setTasks] = useState<Task[] | null>(null)
+
     const [isChecked, setIsChecked] = useState(false)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const tasksData = await getTasks();
-                setIsChecked(tasksData.isCompeted)
-                setTasks(tasksData);
-            } catch (error) {
-                console.error("Error fetching tasks:", error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-
+    const { data, error } = useSWR('/api/tasks', fetcher)
     const { isOpen, onOpenChange, onOpen } = useDisclosure()
     const [navbar, setNavbar] = useState(false)
 
@@ -67,7 +61,7 @@ const TaskPage = () => {
                 </div>
 
 
-                {tasks?.length === 0 ?
+                {data?.length === 0 ?
                     <div className='flex justify-center items-center w-full mt-20'>
                         <span className='w-full flex flex-col space-y-5 justify-center items-center italic text-small dark:text-neutral-300 drop-shadow-sm '>
                             <PiWarningCircleBold size={30} className='text-orange-700 drop-shadow-md' />
@@ -80,15 +74,15 @@ const TaskPage = () => {
                     :
                     <div className='w-full flex-col space-y-5 justify-center'>
                         <span className='flex flex-row justify-center mt-5 space-x-5 '>
-                            <span className='flex border-2 p-1 rounded-lg text-sm '>In Progress: {tasks?.filter((task) => (!task.isCompeted)).length}</span>
+                            <span className='flex border-2 p-1 rounded-lg text-sm '>In Progress: {data?.filter((task) => (!task.isCompeted)).length}</span>
                             <Model isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
                         </span>
                         <hr className='w-72 mx-auto' />
 
                         <ul className='w-full mt-16'>
-                            {tasks?.map((task) => (
-                                <li key={task.id}>
-                                    <TaskItem isChecked={isChecked} id={task.id} title={task.title} description={task.description} isCompleted={task.isCompeted} />
+                            {data?.map((data) => (
+                                <li key={data.id}>
+                                    <TaskItem isChecked={isChecked} id={data.id} title={data.title} description={data.description} isCompleted={data.isCompeted} />
                                 </li>
                             ))}
                         </ul>

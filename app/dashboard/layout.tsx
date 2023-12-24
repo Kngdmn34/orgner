@@ -29,7 +29,8 @@ const CompanyLayout = ({
     return (
 
 
-        <body  >
+        <body   >
+
             {children}
 
         </body>

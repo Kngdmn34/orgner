@@ -51,7 +51,7 @@ const Statics: React.FC<StaticsProps> = ({ OrganisationData }) => {
             name: 'Employees',
             icon: <FaUsers size={30} className='text-purple-900 drop-shadow-sm' />,
             props: `${OrganisationData.employees}`,
-            link: `/zombie`,
+            link: `/dashboard/zombie`,
             shadow: `shadow-purple-800`
         },
         {
@@ -59,7 +59,7 @@ const Statics: React.FC<StaticsProps> = ({ OrganisationData }) => {
             name: 'Tasks',
             icon: <AiOutlineRadarChart size={30} className='text-orange-900 drop-shadow-sm' />,
             props: `${tsks?.length}`,
-            link: `/tasks`,
+            link: `/dashboard/tasks`,
             shadow: `shadow-orange-800`
         },
         {
@@ -67,7 +67,7 @@ const Statics: React.FC<StaticsProps> = ({ OrganisationData }) => {
             name: `Development`,
             icon: <AiOutlineStock size={30} className='text-green-900 drop-shadow-sm' />,
             props: `${OrganisationData.phase} `,
-            link: `/dev`,
+            link: `/dashboard/dev`,
             shadow: `shadow-green-900`
         },
         {
@@ -75,7 +75,7 @@ const Statics: React.FC<StaticsProps> = ({ OrganisationData }) => {
             name: `Finance`,
             icon: <FaMoneyBills size={30} className='text-blue-800 drop-shadow-sm' />,
             props: `NONE `,
-            link: `/finance`,
+            link: `/dashboard/finance`,
             shadow: `shadow-blue-800`
         },
 

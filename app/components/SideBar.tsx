@@ -44,31 +44,31 @@ const SideBar: React.FC<SidebarProps> = ({ navbar, setNavbar, label }) => {
         {
             label: 'Organisation',
             icon: <LiaConnectdevelop size={20} />,
-            Link: '/organisation',
+            Link: '/dashboard/organisation',
             bg: `bg-red-400`
         },
         {
 
             label: 'Employees',
             icon: <FaUsers size={20} />,
-            Link: `/zombie`,
+            Link: `/dashboard/zombie`,
 
         },
         {
             label: 'Tasks',
             icon: <AiOutlineRadarChart size={20} />,
-            Link: '/tasks'
+            Link: '/dashboard/tasks'
         },
         {
             label: 'Development',
             bg: `bg-green-400`,
             icon: <AiOutlineStock size={20} />,
-            Link: '/dev'
+            Link: '/dashboard/dev'
         },
         {
             label: 'Finance',
             icon: <FaMoneyBills size={20} />,
-            Link: '/finance'
+            Link: '/dashboard/finance'
         },
     ]
 

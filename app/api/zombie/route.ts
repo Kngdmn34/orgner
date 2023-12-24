@@ -1,4 +1,4 @@
-import Zombiespage from '@/app/(company)/zombie/page';
+import Zombiespage from '@/app/dashboard/zombie/page';
 import getCurrentOwner from '@/app/action/getCurrentOwner';
 import getOrganisation from '@/app/action/getOrganisation';
 import prisma from '@/app/libs/prismadb'

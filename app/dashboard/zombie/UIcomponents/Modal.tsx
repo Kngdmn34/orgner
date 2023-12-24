@@ -7,6 +7,8 @@ import * as yup from "yup"
 import axios from 'axios'
 import toast from 'react-hot-toast';
 import { IoMdAdd } from 'react-icons/io'
+import { revalidatePath, revalidateTag } from "next/cache";
+import { useSWRConfig } from "swr";
 
 const schema = yup
     .object({
@@ -19,16 +21,11 @@ type FormData = {
     name: string;
     position: string;
 };
-interface ModalProps {
 
-    id: string
-    name: string;
-    position: string
-}
 
 export default function ModalApp() {
     const [loading, setLoading] = useState(false)
-
+    const { mutate } = useSWRConfig()
 
     const {
         register,
@@ -41,7 +38,6 @@ export default function ModalApp() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 
-
     const OnSubmit: SubmitHandler<FormData> = (data) => {
         setLoading(true)
         try {
@@ -50,11 +46,13 @@ export default function ModalApp() {
 
                     console.log(res)
                     toast.success('New Employee Added')
+
+
                 })
                 .catch((error) => {
                     toast.error('Something went wrong', error)
                 })
-                .finally(() => setLoading(false))
+                .finally(() => { setLoading(false); mutate('/api/zombie') })
         } catch (error) {
             console.log('Zombied POST AXIOS ERROR', error)
         }
