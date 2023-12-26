@@ -73,7 +73,7 @@ const Zombiespage = () => {
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value;
         setQuery(searchTerm);
-        // Reset to the first page when searching
+
     };
 
 

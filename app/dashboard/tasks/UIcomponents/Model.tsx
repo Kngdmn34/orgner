@@ -33,7 +33,7 @@ type FormData = {
 }
 
 const Model: React.FC<ModelTaskProps> = ({ isOpen, onOpen, onOpenChange }) => {
-
+    const [loading, setLoading] = useState(false)
     const { mutate } = useSWRConfig()
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
@@ -50,25 +50,26 @@ const Model: React.FC<ModelTaskProps> = ({ isOpen, onOpen, onOpenChange }) => {
     }
 
     const OnSubmit: SubmitHandler<FormData> = (data) => {
+        setLoading(true)
         try {
             axios.post('/api/tasks', data)
                 .then((res) => {
-                    if (res.data && res.data.tasks) {
 
-                        toast.success('TASK ADDED');
+                    console.log(res)
+                    toast.success('New Task Added')
 
-                    }
+
                 })
                 .catch((error) => {
-                    toast.error('SOMETHING WENT WRONG')
-                    console.log(error, 'AXIOS POST ERROR')
+                    toast.error('Something went wrong', error)
                 })
-        } catch (e) {
-            console.log(e)
-        } finally {
-            mutate('/api/tasks')
+                .finally(() => { setLoading(false); mutate('/api/tasks') })
+        } catch (error) {
+            console.log('Task POST AXIOS ERROR', error)
         }
+
     }
+
 
 
     return (

@@ -55,7 +55,7 @@ const TaskPage = () => {
 
             <div className={`flex ${navbar ? `-translate-x-16 ` : `translate-x-0`} ease-in-out duration-300 flex-col border-2 border-neutral-700 w-full m-6 rounded-lg shadow-xl dark:shadow-orange-800`}>
                 <div className='flex pt-5 flex-row items-center space-x-3' >
-                    <Link href={'/organisation'} className='p-4'><AiOutlineLeft size={20} /></Link>
+                    <Link href={'/dashboard/organisation'} className='p-4'><AiOutlineLeft size={20} /></Link>
                     <h1 className='p-4 border-l tracking-widest drop-shadow-sm'>TASKS</h1>
 
                 </div>

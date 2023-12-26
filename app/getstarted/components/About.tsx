@@ -13,7 +13,7 @@ const About = () => {
 
             <div className='w-[72%] mx-auto mb-52  mt-10'>
                 <div className=' flex flex-col space-y-5 justify-center '>
-                    <p className='text-lg drop-shadow-sm '>Introducing orgner beta, the web application designed to streamline and optimize your organization&#39;s structure. While orgneR is currently undergoing construction, it promises to revolutionize the way you manage your organization. Please note that certain features are temporarily disabled or under development, but the future holds a dynamic and powerful tool for enhancing your organizational efficiency </p>
+                    <p className='text-lg indent-5 drop-shadow-sm '>Introducing orgner beta, the web application designed to streamline and optimize your organization&#39;s structure. While orgneR is currently undergoing construction, it promises to revolutionize the way you manage your organization. Please note that certain features are temporarily disabled or under development, but the future holds a dynamic and powerful tool for enhancing your organizational efficiency </p>
 
                 </div>
             </div>

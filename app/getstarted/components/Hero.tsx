@@ -27,7 +27,7 @@ const Hero = () => {
 
 
 
-                        <div className='absolute flex justify-center items-center bottom-3 mb-16'>
+                        <div className='absolute flex  justify-center items-center bottom-3 mb-16'>
                             <Link
                                 to='about'
                                 activeClass='active'
@@ -35,7 +35,7 @@ const Hero = () => {
                                 smooth={true}
                                 offset={-100}
                                 duration={500}
-                                className='  mt-10 text-neutral-200  shadow-md animate-bounce duration-500 rounded-full backdrop-blur-lg p-2'
+                                className='  mt-10 text-neutral-200 border shadow-md animate-bounce duration-500 rounded-full backdrop-blur-lg p-2'
                             >
                                 <BsChevronDown
                                     className='font-bold hover:cursor-pointer'
