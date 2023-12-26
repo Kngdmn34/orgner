@@ -5,6 +5,7 @@ import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, Dropd
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import ModifyModalApp from './ModifyModel';
+import { useSWRConfig } from "swr";
 
 
 interface ModelProps {
@@ -14,19 +15,20 @@ interface ModelProps {
 const Action: React.FC<ModelProps> = ({ id }) => {
 
     const { isOpen, onOpenChange, onOpen } = useDisclosure()
-
+    const { mutate } = useSWRConfig()
 
 
     const deleteUser = async (id: string) => {
         try {
-            const res = await axios.delete(`/api/zombie/${id}`);
-
+            await axios.delete(`/api/zombie/${id}`);
             toast.success('Deleted successfully');
 
         } catch (e) {
             // Handle errors, show a toast or update UI state
             toast.error('Failed to delete zombie');
             console.log('Something went wrong', e);
+        } finally {
+            mutate('/api/zombie')
         }
     }
 

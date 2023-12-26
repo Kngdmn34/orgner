@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import axios from 'axios'
 import toast from 'react-hot-toast';
+import { useSWRConfig } from "swr";
 
 
 const schema = yup
@@ -41,7 +42,7 @@ export const ModifyModalApp: React.FC<ModifyModelProps> = ({
 }) => {
 
     const [isMounted, setIsMounted] = useState(false)
-
+    const { mutate } = useSWRConfig()
     const {
         register,
         handleSubmit,
@@ -82,11 +83,11 @@ export const ModifyModalApp: React.FC<ModifyModelProps> = ({
                 })
                 .catch((error) => {
                     toast.error('Something went wrong', error)
-                })
+                }).finally(() => mutate('/api/zombie'))
 
 
         } catch (error) {
-            console.log('Zombied PATCH AXIOS ERROR', error)
+            console.log('Employee PATCH AXIOS ERROR', error)
         }
 
     }

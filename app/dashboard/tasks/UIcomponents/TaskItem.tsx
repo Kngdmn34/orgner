@@ -7,8 +7,8 @@ import { TiDelete } from "react-icons/ti";
 import { MdOutlineDone, MdDeleteOutline } from "react-icons/md";
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { register } from 'module';
 
+import { useSWRConfig } from "swr";
 
 interface TaskItemProps {
     id: string
@@ -22,7 +22,7 @@ interface TaskItemProps {
 const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted, isChecked }) => {
 
     const [vdescription, setVdescription] = useState(false)
-
+    const { mutate } = useSWRConfig()
 
     const ToggleDes = () => {
         if (vdescription == true) {
@@ -45,6 +45,9 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, isCompleted
         }
         catch (error) {
             console.log(error)
+        }
+        finally {
+            mutate('/api/tasks')
         }
     }
 
